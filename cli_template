@@ -1,0 +1,7 @@
+  cpapi --study-id 1414 \
+  --subject-identifier [subj-name] \
+  --data-category [raw-accelerometer, imu, or temperature] \
+  --start-date [yyyy-mm-dd] \
+  --end-date [yyyy-mm-dd] \
+  --file-format [csv, avro] \
+  --max-concurrency 5
