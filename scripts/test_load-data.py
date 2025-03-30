@@ -5,7 +5,7 @@ from centrepoint.utils.load import load_data
 # Change these if you want to test another subject or category
 data_category = "temperature"
 subject_identifier = "PIL_JAM_LW"
-file_format = "parquet"  # or "avro"
+file_format = "parquet" # or "avro"
 
 print(f"📂 Loading {file_format.upper()} data for {subject_identifier} in '{data_category}'...")
 
