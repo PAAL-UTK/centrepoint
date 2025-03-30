@@ -71,7 +71,7 @@ async def download_category(category, args, subject_id):
         tasks = []
         for f in files.items:
             filename_date_part = f.date.date().isoformat()
-            output_filename = f"{args.subject_identifier}_{category}-{filename_date_part}{ext}"
+            output_filename = f"{args.subject_identifier}_{category}_{filename_date_part}{ext}"
             output_path = output_dir / output_filename
             tasks.append(download_data_file(f.downloadUrl, output_path, sem, progress, task_id, is_gzipped=is_gzipped))
         await asyncio.gather(*tasks)
