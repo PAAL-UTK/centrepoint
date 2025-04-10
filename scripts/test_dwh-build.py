@@ -1,16 +1,9 @@
-# src/main.py
+# scripts/test_dwh_build.py
 
-from centrepoint.cli.download import get_parser, run_download
-from centrepoint.dwh.creator import SensorDWHBuilder
-import asyncio
 from pathlib import Path
+from centrepoint.dwh.creator import SensorDWHBuilder
 
 def main():
-    parser = get_parser()
-    args = parser.parse_args()
-    asyncio.run(run_download(args))
-
-    print("📦 Download complete. Building local DuckDB databases...")
     data_root = Path("./data")
     dwh_root = Path("./dwh")
     builder = SensorDWHBuilder(data_root, dwh_root)

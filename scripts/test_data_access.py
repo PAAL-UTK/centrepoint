@@ -13,9 +13,9 @@ study_api = StudiesAPI(auth)
 subject_api = SubjectsAPI(auth)
 data_api = DataAccessAPI(auth)
 
-# Use first study + subject
+# Use first study (UTK Gyro Study) + 5th participant (PIL_JAM_LW) 
 study = study_api.list_studies().items[0]
-subject = subject_api.list_subjects(study.id).items[0]
+subject = subject_api.list_subjects(study.id).items[5]
 
 print(f"\n📥 Getting raw-accelerometer data files for subject {subject.subjectIdentifier}...")
 
@@ -23,10 +23,11 @@ files = data_api.list_files(
     study_id=study.id,
     subject_id=subject.id,
     data_category="raw-accelerometer",
-    start_date=datetime(2021, 1, 1),
-    end_date=datetime(2021, 1, 2),
+    start_date=datetime(2025, 3, 9),
+    end_date=datetime(2025, 3, 16),
 )
 
 print(f"Found {files.totalCount} files:")
 for f in files.items:
     print(f" - {f.fileName} ({f.fileFormat}) -> {f.downloadUrl[:60]}...")
+#   print(f" - {f.fileName} ({f.fileFormat}) -> {f.downloadUrl}...")
