@@ -13,7 +13,7 @@ def main():
     print("📦 Download complete. Building local DuckDB databases...")
     data_root = Path("./data")
     dwh_root = Path("./dwh")
-    builder = SensorDWHBuilder(data_root, dwh_root)
+    builder = SensorDWHBuilder(data_root, dwh_root, verbose=True)
 
     for sensor in builder.sensor_columns:
         print(f"🧪 Building DuckDB for sensor: {sensor}")
