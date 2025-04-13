@@ -23,7 +23,7 @@ dependencies = [
 
 [project.scripts]
 cpapi = "centrepoint.main:main"
-cpfilter = "centrepoint.cli.filter_gyro:run_filter_entry"
+cpresultant = "centrepoint.cli.filter_calc_resultant:run_resultant_entry"
 
 [build-system]
 requires = ["hatchling"]
