@@ -14,3 +14,6 @@ data/
 
 # databases
 *.duckdb
+
+# images
+img/

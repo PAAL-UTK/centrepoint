@@ -1,4 +1,4 @@
-# src/dwh/creator.py
+# src/centrepoint/utils/sensor_loader.py
 
 from pathlib import Path
 import duckdb
@@ -17,6 +17,7 @@ class SensorDWHBuilder:
         self.sensor_columns = {
             "imu": [
                 "Timestamp",
+                "SampleOrder",
                 "SubjectId",
                 "GyroscopeX",
                 "GyroscopeY",
@@ -24,6 +25,7 @@ class SensorDWHBuilder:
             ],
             "raw-accelerometer": [
                 "Timestamp",
+                "SampleOrder",
                 "SubjectId",
                 "X",
                 "Y",
