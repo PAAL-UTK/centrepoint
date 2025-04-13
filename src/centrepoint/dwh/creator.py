@@ -13,7 +13,6 @@ class SensorDWHBuilder:
         self.console = Console()
         self.dwh_root.mkdir(parents=True, exist_ok=True)
 
-        # Define which columns to extract per sensor type
         self.sensor_columns = {
             "imu": [
                 "Timestamp",
@@ -60,16 +59,28 @@ class SensorDWHBuilder:
             return "".join(["_" + c.lower() if c.isupper() else c for c in col]).lstrip("_")
 
         cols = self.sensor_columns[sensor]
-        col_str = ", ".join(f'"{c}" AS {normalize(c)}' for c in cols)
 
-        # Create main table if it doesn't exist
+        # Build column expressions including timestamp transformation
+        col_exprs = []
+        for c in cols:
+            if c == "Timestamp":
+                if sensor in ("imu", "raw-accelerometer"):
+                    col_exprs.append("(" + c + " * 1000 + CAST(SampleOrder AS BIGINT) * 1000 / 128) AS ts")
+                elif sensor == "temperature":
+                    col_exprs.append("(" + c + " * 1000) AS ts")
+                else:
+                    col_exprs.append(f'{c} AS ts')
+            else:
+                col_exprs.append(f'"{c}" AS {normalize(c)}')
+
+        col_str = ", ".join(col_exprs)
+
         first_file = parquet_files[0]
         con.execute(f"""
             CREATE TABLE IF NOT EXISTS {table_name} AS
             SELECT {col_str} FROM read_parquet('{first_file}') LIMIT 0
         """)
 
-        # Create imported_files tracking table
         con.execute("""
             CREATE TABLE IF NOT EXISTS _imported_files (
                 sensor TEXT,
@@ -90,7 +101,7 @@ class SensorDWHBuilder:
                 print(f"⏭️  Skipping already imported: {filename}")
                 continue
 
-            print(f"📥 Inserting: {filename}")
+            print(f"📅 Inserting: {filename}")
             con.execute(f"""
                 INSERT INTO {table_name}
                 SELECT {col_str} FROM read_parquet('{str(pf)}')
@@ -104,7 +115,6 @@ class SensorDWHBuilder:
                     summary_table.add_row(filename, str(count))
                     total_inserted += count
 
-        # Create index on ts column if not exists
         try:
             con.execute(f"CREATE INDEX IF NOT EXISTS idx_{table_name}_ts ON {table_name}(ts)")
         except duckdb.CatalogException:
@@ -116,4 +126,3 @@ class SensorDWHBuilder:
         if self.verbose:
             self.console.print(summary_table)
             print(f"📊 Total new rows inserted into {table_name}: {total_inserted}\n")
-
