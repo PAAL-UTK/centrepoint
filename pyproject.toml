@@ -1,6 +1,6 @@
 [project]
 name = "centrepoint"
-version = "0.3.0"
+version = "0.3.1"
 description = "Add your description here"
 readme = "README.md"
 authors = [
@@ -22,8 +22,10 @@ dependencies = [
 ]
 
 [project.scripts]
-cpapi = "centrepoint.main:main"
-cpresultant = "centrepoint.cli.filter_calc_resultant:run_resultant_entry"
+download-data = "centrepoint.cli.download_data:main"
+build-dwh = "centrepoint.cli.build_datawarehouse:main"
+process-dwh = "centrepoint.cli.process_dwh:main"
+list-subjects = "centrepoint.cli.list_subjects:main"
 
 [build-system]
 requires = ["hatchling"]

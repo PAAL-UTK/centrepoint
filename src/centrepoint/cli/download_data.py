@@ -1,4 +1,4 @@
-# centrepoint/cli/download.py
+# centrepoint/cli/download_data.py
 
 import argparse
 import asyncio
@@ -10,7 +10,6 @@ from rich.table import Table
 from rich.progress import Progress
 
 from centrepoint.auth import CentrePointAuth
-from centrepoint.api.studies import StudiesAPI
 from centrepoint.api.subjects import SubjectsAPI
 from centrepoint.api.data_access import DataAccessAPI
 from centrepoint.utils.files import download_data_file
@@ -20,12 +19,12 @@ console = Console()
 
 def get_parser():
     parser = argparse.ArgumentParser(description="Download CentrePoint data files for a subject")
-    parser.add_argument("--study-id", type=int, required=True, help="CentrePoint Study ID")
     parser.add_argument("--subject-identifier", type=str, required=True, help="Subject Identifier (not ID)")
     parser.add_argument("--data-category", type=str, choices=["raw-accelerometer", "imu", "temperature", "all"], help="raw-accelerometer, imu, temperature, or all")
     parser.add_argument("--start-date", type=lambda s: datetime.fromisoformat(s), required=True, help="Start date in ISO format (e.g. 2023-01-01)")
     parser.add_argument("--end-date", type=lambda s: datetime.fromisoformat(s), required=True, help="End date in ISO format (e.g. 2023-01-02)")
-    parser.add_argument("--file-format", type=str, choices=["csv", "avro"], default="csv", help="File format (csv or avro)")
+    parser.add_argument("--study-id", type=int, default=1414, help="CentrePoint Study ID")
+    parser.add_argument("--file-format", type=str, default="avro", choices=["csv", "avro"], help="File format (csv or avro)")
     parser.add_argument("--max-concurrency", type=int, default=5, help="Max number of concurrent downloads")
     return parser
 
@@ -96,3 +95,7 @@ async def run_download(args):
 
     for category in categories:
         await download_category(category, args, subject.id)
+
+def main():
+    args = get_parser().parse_args()
+    asyncio.run(run_download(args))

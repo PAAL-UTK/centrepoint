@@ -1,5 +1,7 @@
 # src/centrepoint/utils/sensor_loader.py
 
+from centrepoint.api.subjects import SubjectsAPI
+from centrepoint.auth import CentrePointAuth
 from pathlib import Path
 import duckdb
 from rich.console import Console
@@ -36,6 +38,37 @@ class SensorDWHBuilder:
                 "TemperatureCelsius",
             ],
         }
+
+    def build_subject_metadata_db(self, study_id: int):
+        db_path = self.dwh_root / "subjects.duckdb"
+        con = duckdb.connect(str(db_path))
+
+        con.execute("""
+            CREATE TABLE IF NOT EXISTS subjects (
+                subject_id BIGINT PRIMARY KEY,
+                subject_identifier TEXT
+            )
+        """)
+
+        auth = CentrePointAuth()
+        api = SubjectsAPI(auth)
+
+        subjects = api.list_subjects(study_id).items
+
+        existing_ids = set(row[0] for row in con.execute("SELECT subject_id FROM subjects").fetchall())
+
+        inserted = 0
+        for subj in subjects:
+            if subj.id not in existing_ids:
+                con.execute(
+                    "INSERT INTO subjects (subject_id, subject_identifier) VALUES (?, ?)",
+                    (subj.id, subj.subjectIdentifier)
+                )
+                inserted += 1
+
+        con.close()
+        if self.verbose:
+            self.console.print(f"[green]✅ Inserted {inserted} new subjects into {db_path}[/green]")
 
     def build_sensor_db(self, sensor: str):
         if sensor not in self.sensor_columns:
