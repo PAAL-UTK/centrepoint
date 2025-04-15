@@ -14,7 +14,7 @@ def get_parser():
 def main():
     args = get_parser().parse_args()
     process_all_resultants(
-        subject_identifier=args.subject_code,
+        subject_identifier=args.subject_identifier,
         imu_db_path=args.imu_db,
         accel_db_path=args.accel_db,
         overwrite=args.overwrite,

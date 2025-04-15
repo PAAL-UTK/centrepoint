@@ -79,17 +79,17 @@ def process_all_resultants(
             if exists == 0:
                 raise RuntimeError(f"Expected table '{table_name}' to exist. Use --overwrite to initialize.")
 
-    # Resolve subject_id from subject_code
-    if subject_code is not None:
+    # Resolve subject_id from subject_identifier
+    if subject_identifier is not None:
         meta_db = str(Path(accel_db_path).parent / "subjects.duckdb")
         con_meta = duckdb.connect(meta_db)
         result = con_meta.execute(
-            "SELECT subject_id FROM subjects WHERE subject_identifier = ?", (subject_code,)
+            "SELECT subject_id FROM subjects WHERE subject_identifier = ?", (subject_identifier,)
         ).fetchone()
         con_meta.close()
 
         if result is None:
-            console.print(f"[red]❌ Subject code '{subject_code}' not found in metadata DB[/red]")
+            console.print(f"[red]❌ Subject code '{subject_identifier}' not found in metadata DB[/red]")
             return
 
         subject_ids = [result[0]]
