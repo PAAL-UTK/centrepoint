@@ -1,3 +1,13 @@
+"""
+GitHub Actions workflow for running tests and reporting coverage for the CentrePoint project.
+
+This workflow is triggered on every push or pull request. It:
+- Sets up a clean Python 3.13 environment
+- Installs project dependencies using `uv`
+- Runs tests using `pytest` with coverage tracking
+- Uploads coverage results to Codecov for visualization and badge integration
+"""
+
 name: Run Tests
 
 on: [push, pull_request]
@@ -28,5 +38,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}  # Only needed for private repos
           files: coverage.xml
-          slug: MelaroJ/centrepoint
 

@@ -10,7 +10,14 @@ from centrepoint.models.data_access import PaginatedDataAccessFiles
 BASE_URL = "https://api.actigraphcorp.com/dataaccess/v3"
 
 class DataAccessAPI(BaseAPI):
+    """Client for retrieving downloadable sensor data files from CentrePoint."""
+
     def __init__(self, auth: CentrePointAuth):
+        """Initializes the DataAccessAPI client.
+
+        Args:
+            auth (CentrePointAuth): An instance that handles authentication and token retrieval.
+        """
         super().__init__(auth, base_url=BASE_URL)
 
     def list_files(
@@ -25,6 +32,22 @@ class DataAccessAPI(BaseAPI):
         limit: int = 100,
         offset: int = 0,
     ) -> PaginatedDataAccessFiles:
+        """Lists sensor data files for a given subject in a study.
+
+        Args:
+            study_id (int): The ID of the study.
+            subject_id (int): The ID of the subject.
+            data_category (str): The type of data (e.g., 'imu', 'raw-accelerometer').
+            start_date (datetime, optional): Filter files after this date.
+            end_date (datetime, optional): Filter files before this date.
+            sort_order (str, optional): Sort direction (e.g., 'asc', 'desc').
+            file_format (str, optional): Desired file format ('avro', 'csv').
+            limit (int, optional): Max number of files to return. Defaults to 100.
+            offset (int, optional): Offset for pagination. Defaults to 0.
+
+        Returns:
+            PaginatedDataAccessFiles: A paginated list of available data files.
+        """
         params: dict[str, str] = {
             "limit": str(limit),
             "offset": str(offset),

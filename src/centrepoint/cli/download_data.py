@@ -16,8 +16,12 @@ from centrepoint.utils.files import download_data_file
 
 console = Console()
 
-
 def get_parser():
+    """Defines and returns the argument parser for the CLI.
+
+    Returns:
+        argparse.ArgumentParser: Configured argument parser.
+    """
     parser = argparse.ArgumentParser(description="Download CentrePoint data files for a subject")
     parser.add_argument("--subject-identifier", type=str, required=True, help="Subject Identifier (not ID)")
     parser.add_argument("--data-category", type=str, choices=["raw-accelerometer", "imu", "temperature", "all"], help="raw-accelerometer, imu, temperature, or all")
@@ -30,6 +34,13 @@ def get_parser():
 
 
 async def download_category(category, args, subject_id):
+    """Downloads files for a specific data category.
+
+    Args:
+        category (str): Data category to download (e.g., 'imu').
+        args: Parsed command-line arguments.
+        subject_id (int): Numeric subject ID from metadata.
+    """
     auth = CentrePointAuth()
     data_api = DataAccessAPI(auth)
 
@@ -79,6 +90,11 @@ async def download_category(category, args, subject_id):
 
 
 async def run_download(args):
+    """Resolves subject and initiates downloads for the selected categories.
+
+    Args:
+        args: Parsed command-line arguments.
+    """
     auth = CentrePointAuth()
     subject_api = SubjectsAPI(auth)
 
@@ -96,9 +112,12 @@ async def run_download(args):
     for category in categories:
         await download_category(category, args, subject.id)
 
+
 def main():
+    """Command-line entrypoint for downloading CentrePoint data files."""
     args = get_parser().parse_args()
     asyncio.run(run_download(args))
+
 
 if __name__ == "__main__":
     main()

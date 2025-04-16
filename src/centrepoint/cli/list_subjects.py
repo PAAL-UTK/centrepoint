@@ -7,11 +7,17 @@ from rich.table import Table
 from pathlib import Path
 
 def get_parser():
+    """Builds and returns the argument parser for subject listing CLI.
+
+    Returns:
+        argparse.ArgumentParser: Configured parser for CLI arguments.
+    """
     parser = argparse.ArgumentParser(description="List subjects from metadata DB")
     parser.add_argument("--filter", type=str, help="Substring to filter subject codes (case-insensitive)")
     return parser
 
 def main():
+    """Main entrypoint to list subjects stored in the local DuckDB metadata database."""
     args = get_parser().parse_args()
     db_path = Path("dwh/subjects.duckdb")
     con = duckdb.connect(str(db_path))
@@ -36,4 +42,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

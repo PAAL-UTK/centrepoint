@@ -8,7 +8,16 @@ from rich.console import Console
 from rich.table import Table
 
 class SensorDWHBuilder:
+    """Builds DuckDB databases for each sensor type and a subject metadata table from downloaded data."""
+
     def __init__(self, data_root: Path, dwh_root: Path, verbose: bool = False):
+        """Initializes the builder.
+
+        Args:
+            data_root (Path): Root path where raw sensor data is stored.
+            dwh_root (Path): Destination directory for DuckDB databases.
+            verbose (bool): Enable detailed progress output if True.
+        """
         self.data_root = data_root
         self.dwh_root = dwh_root
         self.verbose = verbose
@@ -16,30 +25,17 @@ class SensorDWHBuilder:
         self.dwh_root.mkdir(parents=True, exist_ok=True)
 
         self.sensor_columns = {
-            "imu": [
-                "Timestamp",
-                "SampleOrder",
-                "SubjectId",
-                "GyroscopeX",
-                "GyroscopeY",
-                "GyroscopeZ",
-            ],
-            "raw-accelerometer": [
-                "Timestamp",
-                "SampleOrder",
-                "SubjectId",
-                "X",
-                "Y",
-                "Z",
-            ],
-            "temperature": [
-                "Timestamp",
-                "SubjectId",
-                "TemperatureCelsius",
-            ],
+            "imu": ["Timestamp", "SampleOrder", "SubjectId", "GyroscopeX", "GyroscopeY", "GyroscopeZ"],
+            "raw-accelerometer": ["Timestamp", "SampleOrder", "SubjectId", "X", "Y", "Z"],
+            "temperature": ["Timestamp", "SubjectId", "TemperatureCelsius"],
         }
 
     def build_subject_metadata_db(self, study_id: int):
+        """Fetches subject metadata from API and stores it in a DuckDB table.
+
+        Args:
+            study_id (int): CentrePoint study ID from which to pull subject list.
+        """
         db_path = self.dwh_root / "subjects.duckdb"
         con = duckdb.connect(str(db_path))
 
@@ -52,7 +48,6 @@ class SensorDWHBuilder:
 
         auth = CentrePointAuth()
         api = SubjectsAPI(auth)
-
         subjects = api.list_subjects(study_id).items
 
         existing_ids = set(row[0] for row in con.execute("SELECT subject_id FROM subjects").fetchall())
@@ -71,6 +66,15 @@ class SensorDWHBuilder:
             self.console.print(f"[green]✅ Inserted {inserted} new subjects into {db_path}[/green]")
 
     def build_sensor_db(self, sensor: str):
+        """Builds a DuckDB file for a given sensor type by normalizing and importing its raw Parquet files.
+
+        Args:
+            sensor (str): Sensor key (e.g. 'imu', 'raw-accelerometer', 'temperature').
+
+        Raises:
+            ValueError: If the sensor name is unknown.
+            FileNotFoundError: If no Parquet files are found for the sensor.
+        """
         if sensor not in self.sensor_columns:
             raise ValueError(f"No column config defined for sensor '{sensor}'")
 
@@ -93,7 +97,6 @@ class SensorDWHBuilder:
 
         cols = self.sensor_columns[sensor]
 
-        # Build column expressions including timestamp transformation
         col_exprs = []
         for c in cols:
             if c == "Timestamp":
@@ -159,3 +162,4 @@ class SensorDWHBuilder:
         if self.verbose:
             self.console.print(summary_table)
             print(f"📊 Total new rows inserted into {table_name}: {total_inserted}\n")
+

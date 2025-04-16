@@ -5,6 +5,8 @@ from datetime import datetime
 from typing import List
 
 class Study(BaseModel):
+    """Represents a CentrePoint study, including metadata and configuration settings."""
+
     id: int
     name: str
     organizationName: str
@@ -15,6 +17,8 @@ class Study(BaseModel):
     monitorDataCollectionMode: str
 
 class PaginatedStudies(BaseModel):
+    """Container for paginated Study results from the CentrePoint API."""
+
     items: List[Study]
     totalCount: int
     limit: int

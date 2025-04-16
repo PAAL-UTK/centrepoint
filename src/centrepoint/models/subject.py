@@ -5,6 +5,8 @@ from typing import Optional, List
 from datetime import date
 
 class Subject(BaseModel):
+    """Represents a CentrePoint subject with demographic and study-related metadata."""
+
     id: int
     studyId: int
     siteId: int
@@ -22,7 +24,10 @@ class Subject(BaseModel):
     assignmentId: Optional[int] = None
 
 class PaginatedSubjects(BaseModel):
+    """Container for paginated Subject results from the CentrePoint API."""
+
     items: List[Subject]
     totalCount: int
     limit: int
     offset: int
+

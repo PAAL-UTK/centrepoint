@@ -5,6 +5,8 @@ from datetime import datetime
 from typing import List
 
 class DataAccessFile(BaseModel):
+    """Represents a downloadable file associated with a CentrePoint subject and sensor type."""
+
     studyId: int
     subjectId: int
     dataCategory: str
@@ -16,7 +18,10 @@ class DataAccessFile(BaseModel):
     downloadUrlExpiresOn: datetime
 
 class PaginatedDataAccessFiles(BaseModel):
+    """Container for paginated DataAccessFile results from the CentrePoint API."""
+
     items: List[DataAccessFile]
     totalCount: int
     limit: int
     offset: int
+
