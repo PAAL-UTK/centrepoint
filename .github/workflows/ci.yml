@@ -28,4 +28,5 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}  # Only needed for private repos
           files: coverage.xml
+          slug: MelaroJ/centrepoint
 
