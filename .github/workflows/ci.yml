@@ -20,7 +20,7 @@ jobs:
       - name: Install uv + dependencies
         run: |
           pip install uv
-          uv pip install --system
+          uv pip install --system --editable .
 
       - name: Run tests with pytest
         run: pytest --disable-warnings
