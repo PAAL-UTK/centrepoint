@@ -1,1 +1,1 @@
-[![codecov](https://codecov.io/gh/MelaroJ/centrepoint/graph/badge.svg?token=YKWUPNJ37R)](https://codecov.io/gh/MelaroJ/centrepoint)
+[![codecov](https://codecov.io/gh/PAAL-UTK/centrepoint/graph/badge.svg?token=A1TCBOITEI)](https://codecov.io/gh/PAAL-UTK/centrepoint)
