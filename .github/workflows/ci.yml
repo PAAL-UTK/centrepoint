@@ -1,27 +1,31 @@
 name: Run Tests
 
-# This tells GitHub: "Run this workflow whenever someone pushes code
-# or opens a pull request."
 on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Use a clean Linux environment
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Step 1: Grab your repo contents
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13'  # You can match this to your local version
+          python-version: '3.13'
 
       - name: Install uv + dependencies
         run: |
           pip install uv
           uv pip install --system --editable .
 
-      - name: Run tests with pytest
-        run: pytest --disable-warnings
+      - name: Run tests with coverage
+        run: pytest --cov=src/centrepoint --cov-report=term-missing --cov-report=xml --disable-warnings
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}  # Only needed for private repos
+          files: coverage.xml
 

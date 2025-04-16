@@ -16,6 +16,7 @@ dependencies = [
     "polars>=1.26.0",
     "pyarrow>=19.0.1",
     "pydantic>=2.11.0",
+    "pytest-cov>=6.1.1",
     "pytest>=8.3.5",
     "rich>=13.9.4",
     "scipy>=1.15.2",
