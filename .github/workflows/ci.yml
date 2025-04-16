@@ -29,7 +29,7 @@ jobs:
           uv pip install --system --editable .
 
       - name: Run tests with coverage
-        run: pytest --cov=src/centrepoint --cov-report=term-missing --cov-report=xml --disable-warnings
+        run: pytest --import-mode=importlib --cov=src/centrepoint --cov-report=term-missing --cov-report=xml --disable-warnings
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

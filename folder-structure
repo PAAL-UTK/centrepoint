@@ -1,0 +1,71 @@
+.
+├── data
+│   ├── imu
+│   │   ├── PIL_JAM_LW_imu_2025-03-10.parquet
+│   │   ├── PIL_JAM_LW_imu_2025-03-11.parquet
+│   │   ├── PIL_JAM_LW_imu_2025-03-12.parquet
+│   │   ├── PIL_JAM_LW_imu_2025-03-13.parquet
+│   │   └── PIL_JAM_LW_imu_2025-03-14.parquet
+│   ├── raw-accelerometer
+│   │   ├── PIL_JAM_LW_raw-accelerometer_2025-03-10.parquet
+│   │   ├── PIL_JAM_LW_raw-accelerometer_2025-03-11.parquet
+│   │   ├── PIL_JAM_LW_raw-accelerometer_2025-03-12.parquet
+│   │   ├── PIL_JAM_LW_raw-accelerometer_2025-03-13.parquet
+│   │   └── PIL_JAM_LW_raw-accelerometer_2025-03-14.parquet
+│   └── temperature
+│       ├── PIL_JAM_LW_temperature_2025-03-10.parquet
+│       ├── PIL_JAM_LW_temperature_2025-03-11.parquet
+│       ├── PIL_JAM_LW_temperature_2025-03-12.parquet
+│       ├── PIL_JAM_LW_temperature_2025-03-13.parquet
+│       └── PIL_JAM_LW_temperature_2025-03-14.parquet
+├── dwh
+│   ├── imu.duckdb
+│   ├── raw-accelerometer.duckdb
+│   ├── subjects.duckdb
+│   └── temperature.duckdb
+├── src
+│   └── centrepoint
+│       ├── api
+│       │   ├── base.py
+│       │   ├── data_access.py
+│       │   ├── __init__.py
+│       │   ├── studies.py
+│       │   └── subjects.py
+│       ├── cli
+│       │   ├── build_datawarehouse.py
+│       │   ├── download_data.py
+│       │   ├── __init__.py
+│       │   ├── list_subjects.py
+│       │   └── process_dwh.py
+│       ├── dwh
+│       │   ├── creator.py
+│       │   ├── __init__.py
+│       │   └── processor.py
+│       ├── models
+│       │   ├── data_access.py
+│       │   ├── __init__.py
+│       │   ├── study.py
+│       │   └── subject.py
+│       ├── utils
+│       │   ├── files.py
+│       │   ├── __init__.py
+│       │   ├── load.py
+│       │   └── paginate.py
+│       ├── auth.py
+│       └── __init__.py
+├── tests
+│   ├── conftest.py
+│   ├── test_auth.py
+│   ├── test_cli_smoke.py
+│   ├── test_creator.py
+│   ├── test_data_access_api.py
+│   ├── test_processor.py
+│   └── test_subjects_api.py
+├── cli_template
+├── pyproject.toml
+├── README.md
+├── uv.lock
+└── workflow.drawio
+
+14 directories, 54 files
+
