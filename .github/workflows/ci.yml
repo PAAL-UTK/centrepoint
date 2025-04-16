@@ -1,12 +1,10 @@
-"""
-GitHub Actions workflow for running tests and reporting coverage for the CentrePoint project.
+# GitHub Actions workflow for running tests and reporting coverage for the CentrePoint project.
 
-This workflow is triggered on every push or pull request. It:
-- Sets up a clean Python 3.13 environment
-- Installs project dependencies using `uv`
-- Runs tests using `pytest` with coverage tracking
-- Uploads coverage results to Codecov for visualization and badge integration
-"""
+# This workflow is triggered on every push or pull request. It:
+# - Sets up a clean Python 3.13 environment
+# - Installs project dependencies using `uv`
+# - Runs tests using `pytest` with coverage tracking
+# - Uploads coverage results to Codecov for visualization and badge integration
 
 name: Run Tests
 
