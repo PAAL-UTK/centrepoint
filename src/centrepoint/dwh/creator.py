@@ -153,7 +153,7 @@ class SensorDWHBuilder:
 
         try:
             con.execute(f"CREATE INDEX IF NOT EXISTS idx_{table_name}_ts ON {table_name}(ts)")
-        except duckdb.CatalogException:
+        except duckdb.Error:
             print(f"⚠️  Could not create index on {table_name}.ts — column may not exist.")
 
         con.close()

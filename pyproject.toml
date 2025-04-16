@@ -21,6 +21,7 @@ dependencies = [
     "rich>=13.9.4",
     "scipy>=1.15.2",
     "typing>=3.10.0.0",
+    "pytest-asyncio>=0.26.0",
 ]
 
 [project.scripts]
@@ -38,9 +39,13 @@ packages = ["src/centrepoint"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-ra -q"
+addopts = "-ra -q --tb=short --durations=10 --strict-markers --cov=src/centrepoint --cov-report=term-missing"
 testpaths = ["tests"]
 python_files = ["test_*.py"]
+markers = [
+    "asyncio: mark a test as async and run it in an event loop"
+]
+asyncio_default_fixture_loop_scope = "function"
 
 [dependency-groups]
 dev = [
