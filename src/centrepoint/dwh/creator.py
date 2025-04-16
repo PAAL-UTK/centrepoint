@@ -1,4 +1,4 @@
-# src/centrepoint/utils/sensor_loader.py
+# src/centrepoint/dwh/creator.py
 
 from centrepoint.api.subjects import SubjectsAPI
 from centrepoint.auth import CentrePointAuth

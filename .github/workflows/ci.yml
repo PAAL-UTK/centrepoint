@@ -1,0 +1,27 @@
+name: Run Tests
+
+# This tells GitHub: "Run this workflow whenever someone pushes code
+# or opens a pull request."
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Use a clean Linux environment
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3  # Step 1: Grab your repo contents
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'  # You can match this to your local version
+
+      - name: Install uv + dependencies
+        run: |
+          pip install uv
+          uv pip install --system
+
+      - name: Run tests with pytest
+        run: pytest --disable-warnings
+

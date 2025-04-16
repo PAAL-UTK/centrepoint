@@ -1,3 +1,5 @@
+# centrepoint/dwh/processor.py
+
 from pathlib import Path
 import duckdb
 import polars as pl

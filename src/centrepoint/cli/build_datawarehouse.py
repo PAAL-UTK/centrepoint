@@ -1,4 +1,5 @@
 # src/centrepoint/cli/build_datawarehouse.py
+
 import argparse
 from pathlib import Path
 from centrepoint.dwh.creator import SensorDWHBuilder
@@ -25,4 +26,7 @@ def main():
 
     print("\n👥 Building subject metadata database...")
     builder.build_subject_metadata_db(args.study_id)
+
+if __name__ == "__main__":
+    main()
 

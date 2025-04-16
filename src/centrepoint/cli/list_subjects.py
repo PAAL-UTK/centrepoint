@@ -1,3 +1,5 @@
+# centrepoint/cli/list_subjects.py
+
 import argparse
 import duckdb
 from rich.console import Console
@@ -31,4 +33,7 @@ def main():
 
     console = Console()
     console.print(table)
+
+if __name__ == "__main__":
+    main()
 

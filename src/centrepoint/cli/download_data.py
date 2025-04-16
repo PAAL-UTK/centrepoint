@@ -99,3 +99,7 @@ async def run_download(args):
 def main():
     args = get_parser().parse_args()
     asyncio.run(run_download(args))
+
+if __name__ == "__main__":
+    main()
+

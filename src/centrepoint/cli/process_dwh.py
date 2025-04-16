@@ -1,4 +1,5 @@
 # src/centrepoint/cli/process_dwh.py
+
 import argparse
 from centrepoint.dwh.processor import process_all_resultants
 
@@ -20,4 +21,7 @@ def main():
         overwrite=args.overwrite,
         dry_run=args.dry_run
     )
+
+if __name__ == "__main__":
+    main()
 
